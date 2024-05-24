@@ -4,9 +4,9 @@ iatest=$(expr index "$-" i)
 #######################################################
 # SOURCED ALIAS'S AND SCRIPTS BY zachbrowne.me
 #######################################################
-if [ -f /usr/bin/fastfetch ]; then
-	fastfetch
-fi
+#if [ -f /usr/bin/fastfetch ]; then
+#	fastfetch
+#fi
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -64,7 +64,7 @@ alias vim='nvim'
 if command -v lsb_release >/dev/null; then
 	DISTRIBUTION=$(lsb_release -si)
 
-	if [ "$DISTRIBUTION" = "Fedora" ] || [ "$DISTRIBUTION" = "Arch" ]; then
+	if [ "$DISTRIBUTION" = "Fedora" ] || [ "$DISTRIBUTION" = "Arch" ] || [ "$DISTRIBUTION" = "EndeavourOS" ]; then
 		alias cat='bat'
 	else
 		alias cat='batcat'
@@ -359,7 +359,7 @@ distribution ()
 			gentoo)
 				dtype="gentoo"
 				;;
-			arch)
+			arch|endeavouros)
 				dtype="arch"
 				;;
 			slackware)
@@ -438,7 +438,7 @@ install_bashrc_support() {
 			sudo apt-get install /tmp/fastfetch_latest_amd64.deb
 			;;
 		"arch")
-			sudo paru multitail tree zoxide trash-cli fzf bash-completion fastfetch
+			sudo paru -S multitail tree zoxide trash-cli fzf bash-completion fastfetch
 			;;
 		"slackware")
 			echo "No install support for Slackware"
