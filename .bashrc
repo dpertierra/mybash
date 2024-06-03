@@ -550,9 +550,10 @@ lazyg() {
 	git commit -m "$1"
 	git push
 }
-
-source ~/.aliases
-
+if [ -f ~/.aliases ] then
+	source ~/.aliases
+fi
+eval "$(thefuck --alias)"
 #######################################################
 # Set the ultimate amazing command prompt
 #######################################################
