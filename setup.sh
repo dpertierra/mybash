@@ -107,6 +107,26 @@ installBlesh(){
     fi
 }
 
+installTheFuck(){
+    if command_exists fuck; then
+        echo "The fuck is already installed"
+        return
+    fi
+    if [[ $PACKAGER == "pacman" ]]; then  
+        sudo pacman -S thefuck
+    elif [[ $PACKAGER == "apt" ]]; then
+        sudo apt update
+        sudo apt install python3-dev python3-pip python3-setuptools
+        pip3 install thefuck --user
+    else
+        sudo ${PACKAGER} install -yq python3-pip
+        pip install thefuck
+    fi
+
+
+
+}
+
 installZoxide() {
     if command_exists zoxide; then
         echo "Zoxide already installed"
@@ -147,6 +167,7 @@ checkEnv
 installDepend
 installStarship
 installZoxide
+installBlesh
 install_additional_dependencies
 
 if linkConfig; then
