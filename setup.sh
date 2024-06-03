@@ -122,9 +122,6 @@ installTheFuck(){
         sudo ${PACKAGER} install -yq python3-pip
         pip install thefuck
     fi
-
-
-
 }
 
 installZoxide() {
@@ -168,6 +165,7 @@ installDepend
 installStarship
 installZoxide
 installBlesh
+installTheFuck
 install_additional_dependencies
 
 if linkConfig; then
