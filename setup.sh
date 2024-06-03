@@ -61,10 +61,8 @@ installDepend() {
     echo -e "${YELLOW}Installing dependencies...${RC}"
     if [[ $PACKAGER == "pacman" ]]; then
         if ! command_exists yay && ! command_exists paru; then
-            echo "Installing yay as AUR helper..."
-            sudo ${PACKAGER} --noconfirm -S base-devel
-            cd /opt && sudo git clone https://aur.archlinux.org/yay-git.git && sudo chown -R ${USER}:${USER} ./yay-git
-            cd yay-git && makepkg --noconfirm -si
+            echo "Installing paru as AUR helper..."
+            sudo ${PACKAGER} --noconfirm -S base-devel paru
         else
             echo "Aur helper already installed"
         fi
@@ -97,6 +95,15 @@ installStarship() {
     else
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install
+    fi
+}
+
+installBlesh(){
+    if [ ! -f ~./local/share/blesh/ble.sh ]; then
+        git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
+        make -C ble.sh install PREFIX=~/.local
+    else
+        echo "ble.sh already installed"
     fi
 }
 

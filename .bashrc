@@ -1,4 +1,6 @@
 #!/bin/bash
+# Add blesh for syntax highlighting
+[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
 iatest=$(expr index "$-" i)
 
 #######################################################
@@ -549,10 +551,11 @@ lazyg() {
 	git push
 }
 
+source ~/.aliases
+
 #######################################################
 # Set the ultimate amazing command prompt
 #######################################################
-
 alias hug="hugo server -F --bind=10.0.0.97 --baseURL=http://10.0.0.97"
 bind '"\C-f":"zi\n"'
 
@@ -561,3 +564,5 @@ export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bi
 # Install Starship - curl -sS https://starship.rs/install.sh | sh
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
+# Add blesh for syntax highlighting
+[[ ${BLE_VERSION-} ]] && ble-attach
