@@ -169,6 +169,16 @@ linkConfig() {
     ln -svf ${GITPATH}/starship.toml ${USER_HOME}/.config/starship.toml
 }
 
+installChezmoi(){
+    echo "If you are using chezmoi enter the username for the github dotfiles repo"
+    read -p "Enter the user for the dotfiles github repo to use chezmoi, leave empty to not use chezmoi" GITHUB_USERNAME
+    if [ -z "${GITHUB_USERNAME}" ]; then
+        return
+    fi
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+
+}
+
 checkEnv
 installDepend
 installStarship
@@ -176,6 +186,7 @@ installZoxide
 installBlesh
 installAtuin
 installTheFuck
+installChezmoi
 install_additional_dependencies
 
 if linkConfig; then
