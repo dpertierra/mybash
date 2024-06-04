@@ -567,3 +567,4 @@ eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 # Add blesh for syntax highlighting
 [[ ${BLE_VERSION-} ]] && ble-attach
+eval "$(atuin init bash)"

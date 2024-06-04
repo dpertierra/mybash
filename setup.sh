@@ -107,8 +107,17 @@ installBlesh(){
     fi
 }
 
+installAtuin(){
+    if command_exists atuin; then
+        echo "Atuin is already installed"
+    fi
+
+    bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
+    atuin import auto
+}
+
 installTheFuck(){
-    if command_exists fuck; then
+    if command_exists thefuck; then
         echo "The fuck is already installed"
         return
     fi
