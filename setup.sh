@@ -174,6 +174,7 @@ installDepend
 installStarship
 installZoxide
 installBlesh
+installAtuin
 installTheFuck
 install_additional_dependencies
 
