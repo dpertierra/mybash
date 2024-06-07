@@ -44,3 +44,8 @@ The `.bashrc` file is a script that runs every time a new terminal session is st
 
 This `.bashrc` file is a comprehensive setup that not only enhances the shell experience with useful aliases and functions but also provides system-specific configurations and safety features to cater to different user needs and system types. It is designed to make the terminal more user-friendly, efficient, and powerful for an average user.
 
+## Quick Install command
+
+```bash
+bash < (curl https://github.com/dpertierra/mybash/blob/main/setup.sh)
+```

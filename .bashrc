@@ -63,15 +63,15 @@ alias snano='sedit'
 alias vim='nvim'
 
 # Replace batcat with cat on Fedora as batcat is not available as a RPM in any form
-if command -v lsb_release >/dev/null; then
-	DISTRIBUTION=$(lsb_release -si)
+# if command -v lsb_release >/dev/null; then
+# 	DISTRIBUTION=$(lsb_release -si)
 
-	if [ "$DISTRIBUTION" = "Fedora" ] || [ "$DISTRIBUTION" = "Arch" ] || [ "$DISTRIBUTION" = "EndeavourOS" ]; then
-		alias cat='bat'
-	else
-		alias cat='batcat'
-	fi
-fi
+# 	if [ "$DISTRIBUTION" = "Fedora" ] || [ "$DISTRIBUTION" = "Arch" ] || [ "$DISTRIBUTION" = "EndeavourOS" ]; then
+# 		alias cat='bat'
+# 	else
+# 		alias cat='batcat'
+# 	fi
+# fi
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
@@ -361,16 +361,40 @@ distribution ()
 			gentoo)
 				dtype="gentoo"
 				;;
-			arch|endeavouros)
+			arch)
 				dtype="arch"
 				;;
 			slackware)
 				dtype="slackware"
 				;;
 			*)
-				# If ID is not recognized, keep dtype as unknown
-				;;
+			# Check ID_LIKE only if dtype is still unknown
+			if [ -n "$ID_LIKE" ]; then
+				case $ID_LIKE in
+					*fedora*|*rhel*|*centos*)
+						dtype="redhat"
+						;;
+					*sles*|*opensuse*)
+						dtype="suse"
+						;;
+					*ubuntu*|*debian*)
+						dtype="debian"
+						;;
+					*gentoo*)
+						dtype="gentoo"
+						;;
+					*arch*)
+						dtype="arch"
+						;;
+					*slackware*)
+						dtype="slackware"
+						;;
+				esac
+			fi
+			# If ID or ID_LIKE is not recognized, keep dtype as unknown
+			;;
 		esac
+	
 	fi
 
 	echo $dtype
@@ -440,7 +464,7 @@ install_bashrc_support() {
 			sudo apt-get install /tmp/fastfetch_latest_amd64.deb
 			;;
 		"arch")
-			sudo paru -S multitail tree zoxide trash-cli fzf bash-completion fastfetch
+			paru multitail tree zoxide trash-cli fzf bash-completion fastfetch
 			;;
 		"slackware")
 			echo "No install support for Slackware"
@@ -567,4 +591,5 @@ eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 # Add blesh for syntax highlighting
 [[ ${BLE_VERSION-} ]] && ble-attach
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 eval "$(atuin init bash)"

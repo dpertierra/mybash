@@ -5,6 +5,28 @@ RED='\e[31m'
 YELLOW='\e[33m'
 GREEN='\e[32m'
 
+# Check if the home directory and linuxtoolbox folder exist, create them if they don't
+LINUXTOOLBOXDIR="$HOME/linuxtoolbox"
+
+if [[ ! -d "$LINUXTOOLBOXDIR" ]]; then
+    echo -e "${YELLOW}Creating linuxtoolbox directory: $LINUXTOOLBOXDIR${RC}"
+    mkdir -p "$LINUXTOOLBOXDIR"
+    echo -e "${GREEN}linuxtoolbox directory created: $LINUXTOOLBOXDIR${RC}"
+fi
+
+if [[ ! -d "$LINUXTOOLBOXDIR/mybash" ]]; then
+    echo -e "${YELLOW}Cloning mybash repository into: $LINUXTOOLBOXDIR/mybash${RC}"
+    git clone https://github.com/dpertierra/mybash "$LINUXTOOLBOXDIR/mybash"
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}Successfully cloned mybash repository${RC}"
+    else
+        echo -e "${RED}Failed to clone mybash repository${RC}"
+        exit 1
+    fi
+fi
+
+cd "$LINUXTOOLBOXDIR/mybash"
+
 command_exists() {
     command -v $1 >/dev/null 2>&1
 }
@@ -57,7 +79,7 @@ checkEnv() {
 
 installDepend() {
     ## Check for dependencies.
-    DEPENDENCIES='bash bash-completion tar neovim bat tree multitail fastfetch'
+    DEPENDENCIES='bash bash-completion tar bat tree multitail fastfetch tldr trash-cli'
     echo -e "${YELLOW}Installing dependencies...${RC}"
     if [[ $PACKAGER == "pacman" ]]; then
         if ! command_exists yay && ! command_exists paru; then
@@ -146,8 +168,31 @@ installZoxide() {
 }
 
 install_additional_dependencies() {
-   sudo apt update
-   sudo apt install -y trash-cli bat meld jpico
+	case $(command -v apt || command -v zypper || command -v dnf || command -v pacman) in
+        *apt)
+            curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+            chmod u+x nvim.appimage
+            ./nvim.appimage --appimage-extract
+            sudo mv squashfs-root /opt/neovim
+            sudo ln -s /opt/neovim/AppRun /usr/bin/nvim
+            ;;
+        *zypper)
+            sudo zypper refresh
+            sudo zypper install -y neovim 
+            ;;
+        *dnf)
+            sudo dnf check-update
+            sudo dnf install -y neovim 
+            ;;
+        *pacman)
+            sudo pacman -Syu
+            sudo pacman -S --noconfirm neovim 
+            ;;
+        *)
+            echo "No supported package manager found. Please install neovim manually."
+            exit 1
+            ;;
+    esac
 }
 
 linkConfig() {
