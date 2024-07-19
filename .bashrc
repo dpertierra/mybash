@@ -1,6 +1,6 @@
 #!/bin/bash
 # Add blesh for syntax highlighting
-[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
+#[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
 iatest=$(expr index "$-" i)
 
 #######################################################
@@ -574,7 +574,7 @@ lazyg() {
 	git commit -m "$1"
 	git push
 }
-if [ -f ~/.aliases ] then
+if [ -f ~/.aliases ]; then
 	source ~/.aliases
 fi
 eval "$(thefuck --alias)"
@@ -590,6 +590,6 @@ export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bi
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 # Add blesh for syntax highlighting
-[[ ${BLE_VERSION-} ]] && ble-attach
+#[[ ${BLE_VERSION-} ]] && ble-attach
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 eval "$(atuin init bash)"

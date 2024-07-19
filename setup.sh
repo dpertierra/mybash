@@ -200,9 +200,17 @@ linkConfig() {
     USER_HOME=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)
     ## Check if a bashrc file is already there.
     OLD_BASHRC="${USER_HOME}/.bashrc"
+    OLD_ALIASES="${USER_HOME}/.aliases"
     if [[ -e ${OLD_BASHRC} ]]; then
         echo -e "${YELLOW}Moving old bash config file to ${USER_HOME}/.bashrc.bak${RC}"
         if ! mv ${OLD_BASHRC} ${USER_HOME}/.bashrc.bak; then
+            echo -e "${RED}Can't move the old bash config file!${RC}"
+            exit 1
+        fi
+    fi
+    if [[ -e ${OLD_ALIASES} ]]; then
+        echo -e "${YELLOW}Moving old bash config file to ${USER_HOME}/.aliases.bak${RC}"
+        if ! mv ${OLD_ALIASES} ${USER_HOME}/.aliases.bak; then
             echo -e "${RED}Can't move the old bash config file!${RC}"
             exit 1
         fi
@@ -211,6 +219,7 @@ linkConfig() {
     echo -e "${YELLOW}Linking new bash config file...${RC}"
     ## Make symbolic link.
     ln -svf ${GITPATH}/.bashrc ${USER_HOME}/.bashrc
+    ln -svf ${GITPATH}/.aliases ${USER_HOME}/.aliases
     ln -svf ${GITPATH}/starship.toml ${USER_HOME}/.config/starship.toml
 }
 

@@ -1,0 +1,7 @@
+alias su='sudo -s -H'
+alias update='sudo paru -Syu'
+#alias upgrade='sudo nala upgrade'
+alias upda='paru -Syu && flatpak update'
+alias install='sudo paru -S'
+alias grub-update='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias cdg='cd ~/Documents/GitHub'
